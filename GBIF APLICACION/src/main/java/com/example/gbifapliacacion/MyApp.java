@@ -15,7 +15,7 @@ public class MyApp extends Application {
 
     private Stage primaryStage;
     private BorderPane root;
-    private ListView<String> listView;
+    private DatabaseManager databaseManager;
 
     public static void main(String[] args) {
         launch(args);
@@ -32,9 +32,14 @@ public class MyApp extends Application {
         Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        // Crear instancia de DatabaseManager
+        databaseManager = new DatabaseManager();
+        testConnection();
     }
 
     private void showWelcomeScreen() {
+        // ... código de la primera pantalla
         root.getChildren().clear();
 
         // Logo de GBIF
@@ -61,6 +66,8 @@ public class MyApp extends Application {
     }
 
     private void showQuerySelectionScreen() {
+        // ... código de la segunda pantalla
+
         root.getChildren().clear();
 
         // Logo de GBIF
@@ -71,7 +78,7 @@ public class MyApp extends Application {
         root.setTop(logoImageView);
 
         // ListView de consultas predefinidas
-        listView = new ListView<>();
+        ListView<Object> listView = new ListView<>();
         listView.getItems().addAll("Consulta 1", "Consulta 2", "Consulta 3");
         root.setCenter(listView);
 
@@ -84,6 +91,8 @@ public class MyApp extends Application {
     }
 
     private void showResultScreen(String selectedQuery) {
+        // ... código de la tercera pantalla
+
         root.getChildren().clear();
 
         // Logo de GBIF
@@ -104,5 +113,13 @@ public class MyApp extends Application {
 
                 (Pos.CENTER);
         root.setBottom(bottomBox);
+    }
+
+    private void testConnection() {
+        if (databaseManager != null && databaseManager.getConnection() != null) {
+            System.out.println("Conexión exitosa a la base de datos");
+        } else {
+            System.out.println("Error conexion");
+        }
     }
 }
