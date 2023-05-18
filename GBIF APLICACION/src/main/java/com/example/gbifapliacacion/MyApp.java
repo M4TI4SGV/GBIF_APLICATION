@@ -1,10 +1,10 @@
 package com.example.gbifapliacacion;
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -66,7 +66,7 @@ public class MyApp extends Application {
     }
 
     private void showQuerySelectionScreen() {
-        // ... código de la segunda pantalla
+
 
         root.getChildren().clear();
 
@@ -78,9 +78,18 @@ public class MyApp extends Application {
         root.setTop(logoImageView);
 
         // ListView de consultas predefinidas
-        ListView<Object> listView = new ListView<>();
+        ListView<String> listView = new ListView<>();
         listView.getItems().addAll("Consulta 1", "Consulta 2", "Consulta 3");
         root.setCenter(listView);
+
+        // Agregar evento de clic a la ListView
+        listView.setOnMouseClicked(event -> {
+            String selectedItem = listView.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                    showResultScreen(selectedItem);
+
+            }
+        });
 
         // Botón Atrás
         Button backButton = new Button("Atrás");
@@ -91,10 +100,7 @@ public class MyApp extends Application {
     }
 
     private void showResultScreen(String selectedQuery) {
-        // ... código de la tercera pantalla
-
         root.getChildren().clear();
-
         // Logo de GBIF
         ImageView logoImageView = new ImageView(new Image("gbif_logo.png"));
         logoImageView.setFitWidth(100);
@@ -102,8 +108,36 @@ public class MyApp extends Application {
         BorderPane.setAlignment(logoImageView, Pos.TOP_LEFT);
         root.setTop(logoImageView);
 
-        // Tablas de consulta seleccionada
-        // Implementa aquí la lógica para mostrar las tablas según la consulta seleccionada
+        if (selectedQuery.equalsIgnoreCase("Consulta 1")){
+
+            Label welcomeLabel = new Label("Consulta 1 - resultado");
+            welcomeLabel.setWrapText(true);
+            welcomeLabel.setAlignment(Pos.TOP_CENTER);
+            VBox centerBox = new VBox(10, welcomeLabel);
+            centerBox.setAlignment(Pos.TOP_CENTER);
+            root.setCenter(centerBox);
+
+            TableView<ObservableList<Object>> tableView  = (TableView<ObservableList<Object>>) databaseManager.getConnection();
+            root.setCenter(tableView);
+
+
+        } else if (selectedQuery.equalsIgnoreCase("Consulta 2")){
+            Label welcomeLabel = new Label("Consulta 2 - resultado");
+            welcomeLabel.setWrapText(true);
+            welcomeLabel.setAlignment(Pos.TOP_CENTER);
+            VBox centerBox = new VBox(10, welcomeLabel);
+            centerBox.setAlignment(Pos.TOP_CENTER);
+            root.setCenter(centerBox);
+        } else if (selectedQuery.equalsIgnoreCase("Consulta 3")){
+            Label welcomeLabel = new Label("Consulta 3 - resultado");
+            welcomeLabel.setWrapText(true);
+            welcomeLabel.setAlignment(Pos.TOP_CENTER);
+            VBox centerBox = new VBox(10, welcomeLabel);
+            centerBox.setAlignment(Pos.TOP_CENTER);
+            root.setCenter(centerBox);
+
+        }
+
 
         // Botón Atrás
         Button backButton = new Button("Atrás");
